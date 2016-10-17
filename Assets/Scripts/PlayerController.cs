@@ -6,12 +6,16 @@ public class PlayerController : MonoBehaviour {
 
     public ParticleSystem bubbler;
     private Rigidbody2D myRigidbody;
-    public float braking = 1;
-    public float accel   = 1;
+    public float braking;
+    public float accel;
     public bool lookingLeft = true;
     public SkeletonAnimation swimAnim;
     public GameObject harpoon;
-    public Transform fireDistance; 
+    public Transform fireDistance;
+    public float fireRate;
+    float nextFireTime;
+    public float vertSlowPercent;
+    public float speed;
 
     public float idleAnimSpeed = 2;
     public float swimAnimSpeed = 4;
@@ -19,6 +23,7 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        nextFireTime = 0;
         bubbler.simulationSpace = ParticleSystemSimulationSpace.World;
         bubbler.Play();
         myRigidbody = GetComponent<Rigidbody2D>();
@@ -28,15 +33,18 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-       if ( Input.GetButtonDown("fire"))
+        if (Input.GetButtonDown("fire") && Time.time > nextFireTime)
         {
             FireHarpoon();
+            nextFireTime = Time.time + fireRate;
         }
-        var x = Input.GetAxisRaw("Horizontal") * 2.0f;
-        var y = Input.GetAxisRaw("Vertical") * 2.5f;
+        var x = Input.GetAxisRaw("Horizontal") * speed;
+        var y = Input.GetAxisRaw("Vertical") * speed;
 
         float xSpeed = x == 0 ? braking : accel;
         float ySpeed = y == 0 ? braking : accel;
+
+        y -= y*vertSlowPercent;
         
             myRigidbody.velocity = new Vector3(
             Mathf.Lerp(myRigidbody.velocity.x, x, Time.deltaTime * xSpeed),
