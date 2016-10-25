@@ -73,7 +73,6 @@ public class GameManager : MonoBehaviour
         }
         player.transform.position = spawnpoint.position;
         player.GetComponent<Rigidbody2D>().velocity = new Vector2();
-<<<<<<< HEAD
         Lives -= 1;
         if (Lives == 0)
         {
@@ -81,13 +80,11 @@ public class GameManager : MonoBehaviour
             Score = 0;
             
         }
-=======
 
         timeLeft = 45.0f;
         player.GetComponent<PlayerController>().bubbler.Clear();
 
         
->>>>>>> refs/remotes/origin/master
     }
    public void ScoreManager()
     {

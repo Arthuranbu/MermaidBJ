@@ -9,13 +9,9 @@ public class FishMovement : MonoBehaviour {
     public float minRange = 2;
     public GameObject sfish;
     public float speed;
-<<<<<<< HEAD
     public GameObject visuals;
     public static int fishScore = 0;
-=======
-   
 
->>>>>>> refs/remotes/origin/master
     // Use this for initialization
     public void ResetPosition () {
         
