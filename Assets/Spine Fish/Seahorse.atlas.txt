@@ -1,0 +1,13 @@
+
+Seahorse.png
+size: 512,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Seahorse
+  rotate: false
+  xy: 2, 2
+  size: 306, 531
+  orig: 306, 531
+  offset: 0, 0
+  index: -1

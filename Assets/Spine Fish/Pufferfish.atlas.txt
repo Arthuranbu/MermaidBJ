@@ -1,0 +1,13 @@
+
+Pufferfish.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+pufferfish 
+  rotate: false
+  xy: 2, 2
+  size: 660, 472
+  orig: 660, 472
+  offset: 0, 0
+  index: -1
