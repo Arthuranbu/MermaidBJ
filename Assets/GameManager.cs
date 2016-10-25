@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
+    public int Lives = 5;
+    public static int Score = 0;
     public static GameManager instance;
     public Transform spawnpoint;
     public GameObject player;
@@ -61,9 +63,20 @@ public class GameManager : MonoBehaviour
         }
         player.transform.position = spawnpoint.position;
         player.GetComponent<Rigidbody2D>().velocity = new Vector2();
-        
+        Lives -= 1;
+        if (Lives == 0)
+        {
+            Lives = 4;
+            Score = 0;
+            
+        }
     }
+   public void ScoreManager()
+    {
+        Score += FishMovement.fishScore;
+    }
+    
 }
 
-        
+
 

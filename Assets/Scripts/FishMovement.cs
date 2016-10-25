@@ -10,7 +10,7 @@ public class FishMovement : MonoBehaviour {
     public GameObject sfish;
     public float speed;
     public GameObject visuals;
-
+    public static int fishScore = 0;
     // Use this for initialization
     public void ResetPosition () {
         
@@ -73,6 +73,7 @@ public class FishMovement : MonoBehaviour {
         gameObject.SetActive(false);
         sfish.SetActive(true);
         sfish.GetComponent<FishMovement>().ResetPosition();
+        fishScore += 500;
     }
 
     
