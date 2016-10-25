@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public List<GameObject> fishes;
     public List<GameObject> sfishes;
+    public float timeLeft = 45.0f;
     // Use this for initialization
     void Start()
     {
+       
         sfishes = new List<GameObject>();
         foreach (GameObject sfish in GameObject.FindGameObjectsWithTag("sfish"))
         {
@@ -30,6 +32,14 @@ public class GameManager : MonoBehaviour
         ResetGame();
 
 
+    }
+    void Update()
+    {
+        timeLeft -= Time.deltaTime;
+        if (timeLeft < 0)
+        {
+            ResetGame();
+        }
     }
 
     // Update is called once per frame
@@ -63,6 +73,7 @@ public class GameManager : MonoBehaviour
         }
         player.transform.position = spawnpoint.position;
         player.GetComponent<Rigidbody2D>().velocity = new Vector2();
+<<<<<<< HEAD
         Lives -= 1;
         if (Lives == 0)
         {
@@ -70,6 +81,13 @@ public class GameManager : MonoBehaviour
             Score = 0;
             
         }
+=======
+
+        timeLeft = 45.0f;
+        player.GetComponent<PlayerController>().bubbler.Clear();
+
+        
+>>>>>>> refs/remotes/origin/master
     }
    public void ScoreManager()
     {

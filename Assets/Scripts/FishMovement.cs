@@ -9,8 +9,13 @@ public class FishMovement : MonoBehaviour {
     public float minRange = 2;
     public GameObject sfish;
     public float speed;
+<<<<<<< HEAD
     public GameObject visuals;
     public static int fishScore = 0;
+=======
+   
+
+>>>>>>> refs/remotes/origin/master
     // Use this for initialization
     public void ResetPosition () {
         
@@ -49,7 +54,7 @@ public class FishMovement : MonoBehaviour {
             }
         }
         
-        transform.Translate(transform.right * direction * Time.deltaTime * speed);
+        transform.Translate(transform.right * (-1) * Time.deltaTime * speed);
         
 
     }
@@ -57,7 +62,7 @@ public class FishMovement : MonoBehaviour {
     public void ChangeDirection()
     {
         direction *= -1;
-        visuals.GetComponent<SpriteRenderer>().flipX = !visuals.GetComponent<SpriteRenderer>().flipX;
+        transform.localScale = Vector3.Reflect(transform.localScale, Vector3.right);
     }
     //trigger for when the fish collide with player to reset the game
     void OnTriggerStay2D (Collider2D other)
