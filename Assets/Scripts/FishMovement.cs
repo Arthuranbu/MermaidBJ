@@ -10,9 +10,27 @@ public class FishMovement : MonoBehaviour {
     public GameObject sfish;
     public float speed;
     public GameObject visuals;
-    public static int fishScore = 0;
+    public int scoreValue;
+    public GameManager gameController;
+    GameObject gameControllerObject;
 
     // Use this for initialization
+    void Awake()
+    {
+         gameControllerObject = GameObject.FindWithTag("background");
+    }
+    void Start ()
+    {
+       
+        if (gameControllerObject !=null)
+        {
+            gameController = gameControllerObject.GetComponent<GameManager>();
+        }
+        if (gameController ==null)
+        {
+            Debug.Log("CannotFind'GameController' script");
+        }
+    }
     public void ResetPosition () {
         
         if (gameObject.tag == "sfish")
@@ -74,7 +92,7 @@ public class FishMovement : MonoBehaviour {
         gameObject.SetActive(false);
         sfish.SetActive(true);
         sfish.GetComponent<FishMovement>().ResetPosition();
-        fishScore += 500;
+        gameController.AddScore(scoreValue);
     }
 
     
