@@ -10,8 +10,27 @@ public class FishMovement : MonoBehaviour {
     public GameObject sfish;
     public float speed;
     public GameObject visuals;
+    public int scoreValue;
+    public GameManager gameController;
+    GameObject gameControllerObject;
 
     // Use this for initialization
+    void Awake()
+    {
+         gameControllerObject = GameObject.FindWithTag("background");
+    }
+    void Start ()
+    {
+       
+        if (gameControllerObject !=null)
+        {
+            gameController = gameControllerObject.GetComponent<GameManager>();
+        }
+        if (gameController ==null)
+        {
+            Debug.Log("CannotFind'GameController' script");
+        }
+    }
     public void ResetPosition () {
         
         if (gameObject.tag == "sfish")
@@ -49,7 +68,7 @@ public class FishMovement : MonoBehaviour {
             }
         }
         
-        transform.Translate(transform.right * direction * Time.deltaTime * speed);
+        transform.Translate(transform.right * (-1) * Time.deltaTime * speed);
         
 
     }
@@ -57,7 +76,7 @@ public class FishMovement : MonoBehaviour {
     public void ChangeDirection()
     {
         direction *= -1;
-        visuals.GetComponent<SpriteRenderer>().flipX = !visuals.GetComponent<SpriteRenderer>().flipX;
+        transform.localScale = Vector3.Reflect(transform.localScale, Vector3.right);
     }
     //trigger for when the fish collide with player to reset the game
     void OnTriggerStay2D (Collider2D other)
@@ -73,6 +92,7 @@ public class FishMovement : MonoBehaviour {
         gameObject.SetActive(false);
         sfish.SetActive(true);
         sfish.GetComponent<FishMovement>().ResetPosition();
+        gameController.AddScore(scoreValue);
     }
 
     
