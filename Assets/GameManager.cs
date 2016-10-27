@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour
     public float timeLeft = 45.0f;
     public GUIText scoreText;
     public int score;
+    public GameObject treasure;
+    public GameObject Life3;
+    public GameObject Life2;
+    public GameObject Life1;
     // Use this for initialization
     void Awake()
     {
@@ -80,20 +84,33 @@ public class GameManager : MonoBehaviour
             fish.GetComponent<FishMovement>().ResetPosition();
 
         }
+        treasure.SetActive(true);
         player.transform.position = spawnpoint.position;
         player.GetComponent<Rigidbody2D>().velocity = new Vector2();
         Lives -= 1;
         if (Lives == 0)
         {
             Lives = 4;
-            Score = 0;
-
+            score = 0;
+            scoreText.text = "Score: " + score;
+            Life3.SetActive(true);
+            Life2.SetActive(true);
+            Life1.SetActive(true);
         }
-
         timeLeft = 45.0f;
         player.GetComponent<PlayerController>().bubbler.Clear();
-
-
+        if (Lives == 3)
+        {
+            Life3.SetActive(false);
+        }
+        if (Lives == 2)
+        {
+            Life2.SetActive(false);
+        }
+        if (Lives == 1)
+        {
+            Life1.SetActive(false);
+        }
     }
     public void AddScore(int newScoreValue)
     {
@@ -105,7 +122,10 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + score;
 
     }
-    
+    public void TreasureDisable()
+    {
+        gameObject.SetActive(false);
+    }
 }
 
 
