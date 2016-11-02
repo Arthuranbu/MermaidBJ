@@ -5,9 +5,11 @@ public class TreasureGain : MonoBehaviour {
     public GameManager gameController;
     public int scoreValue;
     GameObject gameControllerObject;
+    public GameObject Mermaid;
     void Awake()
     {
         gameControllerObject = GameObject.FindWithTag("background");
+   
     }
     void Start()
     {
@@ -28,6 +30,7 @@ public class TreasureGain : MonoBehaviour {
         
         if (other.gameObject.tag == "Player")
         {
+            Mermaid.SetActive(true);
             gameObject.SetActive(false);
             gameController.AddScore(scoreValue);
         }

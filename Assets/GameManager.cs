@@ -96,6 +96,7 @@ public class GameManager : MonoBehaviour
             Life3.SetActive(true);
             Life2.SetActive(true);
             Life1.SetActive(true);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         timeLeft = 45.0f;
         player.GetComponent<PlayerController>().bubbler.Clear();
