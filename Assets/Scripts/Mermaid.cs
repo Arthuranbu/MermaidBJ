@@ -8,7 +8,6 @@ public class Mermaid : MonoBehaviour {
     {
         yield return new WaitForSeconds(3);
         UnityEngine.SceneManagement.SceneManager.LoadScene(Level);
-        Debug.Log(Level);
     }
     void Start()
     {
