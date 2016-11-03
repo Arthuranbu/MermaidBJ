@@ -10,10 +10,10 @@ public class LightRotation : MonoBehaviour
     public float smooth;
     public float intensity;
     public float maxIntensity = 1.56f;
-    private Light sunLight;
+    private Light sunLightCharacters;
     void Start()
     {
-        sunLight = GetComponent<Light>();
+        sunLightCharacters = GetComponent<Light>();
     }
     void Update()
     {
@@ -26,6 +26,6 @@ public class LightRotation : MonoBehaviour
         {
             intensity = (1.0f - distance / dropDistance) * maxIntensity;
         }
-        sunLight.intensity = Mathf.Lerp(sunLight.intensity, intensity, smooth * Time.deltaTime);
+        sunLightCharacters.intensity = Mathf.Lerp(sunLightCharacters.intensity, intensity, smooth * Time.deltaTime);
     }
 }

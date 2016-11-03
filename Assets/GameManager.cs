@@ -10,13 +10,16 @@ public class GameManager : MonoBehaviour
     public GameObject player;
     public List<GameObject> fishes;
     public List<GameObject> sfishes;
-    public float timeLeft = 45.0f;
+    public float timeLeft;
+    public float MaxTimeLeft;
     public GUIText scoreText;
-    public int score;
+    public static int score;
     public GameObject treasure;
     public GameObject Life3;
     public GameObject Life2;
     public GameObject Life1;
+    public GameObject Mermaid;
+    private static bool isProgressing = false;
     // Use this for initialization
     void Awake()
     {
@@ -42,7 +45,7 @@ public class GameManager : MonoBehaviour
         instance = this;
         ResetGame();
 
-        score = 0;
+        
         ScoreManager();
 
     }
@@ -73,6 +76,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetGame()
     {
+        timeLeft = MaxTimeLeft;
+        Mermaid.SetActive(false);
         foreach (GameObject sfish in sfishes)
         {
             sfish.SetActive(false);
@@ -91,14 +96,22 @@ public class GameManager : MonoBehaviour
         if (Lives == 0)
         {
             Lives = 4;
-            score = 0;
+            if (isProgressing)
+            {
+                isProgressing = false;
+                
+            }
+            else
+            {
+                score = 0;
+            }
             scoreText.text = "Score: " + score;
             Life3.SetActive(true);
             Life2.SetActive(true);
             Life1.SetActive(true);
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
-        timeLeft = 45.0f;
+        
         player.GetComponent<PlayerController>().bubbler.Clear();
         if (Lives == 3)
         {

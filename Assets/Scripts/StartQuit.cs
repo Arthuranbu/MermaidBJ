@@ -11,6 +11,6 @@ public class Quit : MonoBehaviour
 
     public void onClickStart()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene("MainScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level2");
     }
 }
