@@ -7,6 +7,7 @@ public class Meter : MonoBehaviour {
     private float fillAmount;
     [SerializeField]
     private Image content;
+    public float inMax;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,7 @@ public class Meter : MonoBehaviour {
 	}
     private void HandleBar()
     {
-        content.fillAmount = Map(GameManager.instance.timeLeft,0,45,0,1);
+        content.fillAmount = Map(GameManager.instance.timeLeft,0,inMax,0,1);
     }
 
     private float  Map(float value, float inMin, float inMax, float outMin, float outMax)
