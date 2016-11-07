@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Quit : MonoBehaviour
+public class StartQuit : MonoBehaviour
 {
-
+    public GameObject ScoreKeeper;
     public void onClickQuit()
     {
         Application.Quit();
@@ -11,6 +11,8 @@ public class Quit : MonoBehaviour
 
     public void onClickStart()
     {
+        ScoreKeeper = GameObject.Find("ScoreKeeper");
         UnityEngine.SceneManagement.SceneManager.LoadScene("Level2");
+        Destroy (ScoreKeeper);
     }
 }

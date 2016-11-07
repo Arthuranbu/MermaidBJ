@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
     public static int Score = 0;
     public static GameManager instance;
     public Transform spawnpoint;
+    public Transform mermaidspawnpoint;
     public GameObject player;
     public List<GameObject> fishes;
     public List<GameObject> sfishes;
@@ -21,26 +22,10 @@ public class GameManager : MonoBehaviour
     public GameObject Life1;
     public GameObject Mermaid;
     private static bool isProgressing = false;
+    public static int finalscore;
     // Use this for initialization
-        IEnumerator LifeZero()
-    {
-        yield return new WaitForSeconds(3);
-        Lives = 4;
-        if (isProgressing)
-        {
-            isProgressing = false;
+   
 
-        }
-        else
-        {
-            score = 0;
-        }
-        scoreText.text = "Score: " + score;
-        Life3.SetActive(true);
-        Life2.SetActive(true);
-        Life1.SetActive(true);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-    }
     void Awake()
     {
         scoreText = GameObject.Find("ScoreText").GetComponent<GUIText>();
@@ -97,6 +82,7 @@ public class GameManager : MonoBehaviour
     public void ResetGame()
     {
         timeLeft = MaxTimeLeft;
+        Mermaid.transform.position = mermaidspawnpoint.position;
         Mermaid.SetActive(false);
         foreach (GameObject sfish in sfishes)
         {
@@ -115,8 +101,22 @@ public class GameManager : MonoBehaviour
         Lives -= 1;
         if (Lives == 0)
         {
-            StartCoroutine(LifeZero());
+                if (isProgressing)
+                {
+                    isProgressing = false;
 
+                }
+                else
+                {
+                Lives = 4;
+                finalscore = score;
+                    score = 0;
+                }
+                scoreText.text = "Score: " + score;
+                Life3.SetActive(true);
+                Life2.SetActive(true);
+                Life1.SetActive(true);
+                UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         
         player.GetComponent<PlayerController>().bubbler.Clear();
