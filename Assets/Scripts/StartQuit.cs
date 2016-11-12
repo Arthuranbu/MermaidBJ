@@ -12,7 +12,7 @@ public class StartQuit : MonoBehaviour
     public void onClickStart()
     {
         ScoreKeeper = GameObject.Find("ScoreKeeper");
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Level2");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Level1");
         Destroy (ScoreKeeper);
     }
 }
