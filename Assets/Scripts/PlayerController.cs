@@ -4,40 +4,96 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
-    public ParticleSystem bubbler;
-    private Rigidbody2D myRigidbody;
+    // Scuba Steeve
+    // Main Player Character and Controller
+    // Audio Source Controll for all things Steeve
+
+    [Header("Player Information")]
+    public Rigidbody2D player_Rigidbody2D;
+    public Transform harpoon_SpawnPoint;
+
+    [Header("Movement Variables")]
     public float braking;
     public float accel;
-    public bool lookingLeft = true;
-    public SkeletonAnimation swimAnim;
-    public GameObject harpoon;
-    public Transform fireDistance;
-    public float fireRate;
-    float nextFireTime;
     public float vertSlowPercent;
     public float speed;
-
+    public bool lookingLeft = true;
+   
+    [Header("Harpoon Information")]
+    public GameObject harpoon;
+    public float fireRate = 0.5f;
+    private float nextFireTime = 0.0f;
+    
+    [Header("Animation Information")]
+    public SkeletonAnimation swimAnim;
     public float idleAnimSpeed = 2;
     public float swimAnimSpeed = 4;
 
-    // Use this for initialization
+    [Header("Particle Systems")]
+    public ParticleSystem bubbler;
+
+    [Header("Audio Source Information")]
+    public AudioSource audio_Breathing;
+    public AudioClip clip_BreathingNormal;
+    public AudioClip clip_BreathingHeavy;
+    [Space(10)]
+    public AudioSource audio_Harpoon;
+    public AudioClip clip_HarpoonFiring;
+    public AudioClip clip_HarpoonReloading;
+    [Space(10)]
+    public AudioSource audio_Meter;
+
+    [Header("Audio Variables")]
+    [Range(0,1)] public float audio_HarpoonStartTime = 0.8f;
+    public float audioTimer_Breathing;
+    public float audioTimer_ReloadDelay;
+    private float audioTimer_HarpoonReload = 999;
+
+
     void Start()
     {
-        nextFireTime = 0;
-        bubbler.simulationSpace = ParticleSystemSimulationSpace.World;
-        bubbler.Play();
-        myRigidbody = GetComponent<Rigidbody2D>();
-        
+
     }
 
-    // Update is called once per frame
     void Update ()
     {
+        //Shoot Harpoon
+        //If the fire button is pressed and timer done. Plays audio for shooting.
         if (Input.GetButtonDown("fire") && Time.time > nextFireTime)
         {
+            //Fires the harpoon
             FireHarpoon();
+
+            //Trims front of audio clip for harpoon, then plays the clip
+            audio_Harpoon.clip = clip_HarpoonFiring;
+            audio_Harpoon.time = audio_HarpoonStartTime;
+            audio_Harpoon.Play();
+
+            //Starts the next timer
             nextFireTime = Time.time + fireRate;
+
+            //Creates timer for when to start the reload sound
+            audioTimer_HarpoonReload = fireRate - audioTimer_ReloadDelay;
         }
+
+        //Countdown timer for harpoon reload sound
+        if (audioTimer_HarpoonReload > 0)
+        {
+            audioTimer_HarpoonReload -= Time.deltaTime;
+        }
+
+        else
+        {
+            //Prevent clip from playing twice in a row
+            audioTimer_HarpoonReload = 999;
+
+            //Play audio clip
+            audio_Harpoon.Stop();
+            audio_Harpoon.clip = clip_HarpoonReloading;
+            audio_Harpoon.Play();
+        }
+
+
         var x = Input.GetAxisRaw("Horizontal") * speed;
         var y = Input.GetAxisRaw("Vertical") * speed;
 
@@ -46,9 +102,9 @@ public class PlayerController : MonoBehaviour {
 
         y -= y*vertSlowPercent;
         
-            myRigidbody.velocity = new Vector3(
-            Mathf.Lerp(myRigidbody.velocity.x, x, Time.deltaTime * xSpeed),
-            Mathf.Lerp(myRigidbody.velocity.y, y, Time.deltaTime * ySpeed)
+            player_Rigidbody2D.velocity = new Vector3(
+            Mathf.Lerp(player_Rigidbody2D.velocity.x, x, Time.deltaTime * xSpeed),
+            Mathf.Lerp(player_Rigidbody2D.velocity.y, y, Time.deltaTime * ySpeed)
             );
         SpriteFlip();
 
@@ -61,17 +117,18 @@ public class PlayerController : MonoBehaviour {
         {
             swimAnim.timeScale = idleAnimSpeed;
         }
-
     }
+
+
 	void SpriteFlip()
     {
-        if (myRigidbody.velocity.x > 0 && lookingLeft == true)
+        if (player_Rigidbody2D.velocity.x > 0 && lookingLeft == true)
         {
             lookingLeft = false;
             transform.localScale = Vector3.Reflect(transform.localScale, Vector3.right);
         }
 
-        if (myRigidbody.velocity.x < 0 && lookingLeft == false)
+        if (player_Rigidbody2D.velocity.x < 0 && lookingLeft == false)
         {
             lookingLeft = true;
             transform.localScale = Vector3.Reflect(transform.localScale, Vector3.right);
@@ -79,6 +136,8 @@ public class PlayerController : MonoBehaviour {
 
         
     }
+
+
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.tag == "wall")
@@ -86,20 +145,18 @@ public class PlayerController : MonoBehaviour {
             GameManager.instance.ResetGame();
         }
     }
+
+
     void FireHarpoon()
     {
         if (lookingLeft)
         {
-            Instantiate(harpoon, fireDistance.position, Quaternion.Euler(0,0,0));
+            Instantiate(harpoon, harpoon_SpawnPoint.position, Quaternion.Euler(0,0,0));
         }
         else
         {
-            Instantiate(harpoon, fireDistance.position, Quaternion.Euler(0, 180, 0));
+            Instantiate(harpoon, harpoon_SpawnPoint.position, Quaternion.Euler(0, 180, 0));
         }
         
     }
-
-
-
-
 }
