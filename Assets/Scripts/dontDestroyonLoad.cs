@@ -15,17 +15,22 @@ public class dontDestroyonLoad : MonoBehaviour
     {
         SceneManager.activeSceneChanged += OnSceneChanged;
         DontDestroyOnLoad(ScoreKeeper.gameObject);
-        gameControllerObject = GameObject.FindWithTag("background");
-}
+    }
 
     private void OnSceneChanged(Scene arg0, Scene arg1)
     {
-        scoreText = GameObject.Find("ScoreText").GetComponent<UnityEngine.UI.Text>();
-        if (scoreText == null)
+        gameControllerObject = GameObject.FindWithTag("background");
         {
 
+            if (gameControllerObject != null)
+            {
+                gameController = gameControllerObject.GetComponent<GameManager>();
+            }
+            if (gameController == null)
+            {
+                Debug.Log("CannotFind'GameController' script");
+            }
         }
-        else scoreText.text = "Final Score: " + myScore;
     }
 
     // Use this for initialization
@@ -38,5 +43,11 @@ public class dontDestroyonLoad : MonoBehaviour
     void Update()
     {
         myScore = GameManager.finalscore;
+        scoreText = GameObject.Find("ScoreText").GetComponent<UnityEngine.UI.Text>();
+        if (scoreText == null)
+        {
+
+        }
+        else scoreText.text = "Final Score: " + myScore;
     }
 }
