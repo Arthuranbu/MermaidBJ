@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     [Header("Player Information")]
     public Rigidbody2D player_Rigidbody2D;
     public Transform harpoon_SpawnPoint;
+    public Transform glowstick_SpawnPoint;
 
     [Header("Movement Variables")]
     public float braking;
@@ -18,11 +19,16 @@ public class PlayerController : MonoBehaviour {
     public float vertSlowPercent;
     public float speed;
     public bool lookingLeft = true;
+    public static bool collided = false;
    
     [Header("Harpoon Information")]
     public GameObject harpoon;
     public float fireRate = 0.5f;
     private float nextFireTime = 0.0f;
+
+    [Header("Glowstick Information")]
+    public GameObject glowstick;
+   
     
     [Header("Animation Information")]
     public SkeletonAnimation swimAnim;
@@ -90,7 +96,14 @@ public class PlayerController : MonoBehaviour {
             //Play audio clip
             audio_Harpoon.Stop();
             audio_Harpoon.clip = clip_HarpoonReloading;
-            audio_Harpoon.Play();
+            try
+            {
+                audio_Harpoon.Play();
+            }
+            catch 
+            {
+                
+            }
         }
 
 
@@ -140,11 +153,17 @@ public class PlayerController : MonoBehaviour {
 
     void OnTriggerStay2D(Collider2D other)
     {
+        
         if (other.tag == "wall")
+        {
+            collided = true;
+        }
+        if (collided==true)
         {
             GameManager.instance.ResetGame();
         }
     }
+
 
 
     void FireHarpoon()
@@ -159,4 +178,18 @@ public class PlayerController : MonoBehaviour {
         }
         
     }
+    
+    void GlowstickDrop()
+    {
+        if (lookingLeft)
+        {
+            Instantiate(glowstick, glowstick_SpawnPoint.position, Quaternion.Euler(0, 0, 0));
+        }
+
+        else
+        {
+            Instantiate(glowstick, glowstick_SpawnPoint.position, Quaternion.Euler(0, 180, 0));
+        }
+                
+                }
 }

@@ -116,6 +116,7 @@ public class GameManager : MonoBehaviour
                 Life3.SetActive(true);
                 Life2.SetActive(true);
                 Life1.SetActive(true);
+
                 UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
         
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
         {
             Life1.SetActive(false);
         }
+        PlayerController.collided = false;
     }
     public void AddScore(int newScoreValue)
     {
